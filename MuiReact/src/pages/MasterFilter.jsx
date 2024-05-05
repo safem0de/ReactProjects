@@ -7,7 +7,9 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-import * as React from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from "react";
+import ModalMaster from "../components/ModalMaster";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -23,20 +25,33 @@ const VisuallyHiddenInput = styled("input")({
 
 function filterDuplicatesByKey(data, key) {
   const seen = new Set();
-  const filteredData = data.filter(item => {
-      const keyValue = item[key];
-      if (!seen.has(keyValue)) {
-          seen.add(keyValue);
-          return true;
-      }
-      return false;
+  const filteredData = data.filter((item) => {
+    const keyValue = item[key];
+    if (!seen.has(keyValue)) {
+      seen.add(keyValue);
+      return true;
+    }
+    return false;
   });
   return filteredData;
 }
 
 const MasterFilter = () => {
-  const [headerZ, setHeaderZ] = React.useState([]);
-  const [rowZ, setRowZ] = React.useState([]);
+  const [headerZ, setHeaderZ] = useState([]);
+  const [rowZ, setRowZ] = useState([]);
+
+  /* Add Modal */
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Handle open modal event
+  // const handleOpenModal = () => {
+  //   setModalOpen(true);
+  // };
+
+  // Handle close modal event
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   const createHeader = (Objdata, addRowNo = true) => {
     if (!Objdata || !Objdata.length) {
@@ -71,9 +86,9 @@ const MasterFilter = () => {
 
   function addIdToObjects(array, strColumn = "no") {
     return array.map((item, index) => ({
-        id: index + 1,  // Add an 'id' property based on the index, starting from 1
-        [strColumn] : (index + 1).toString(),
-        ...item,
+      id: index + 1, // Add an 'id' property based on the index, starting from 1
+      [strColumn]: index + 1,
+      ...item,
     }));
   }
 
@@ -91,7 +106,9 @@ const MasterFilter = () => {
         setHeaderZ(createHeader(results.data, true));
         setRowZ(addIdToObjects(results.data, "no"));
 
-        console.log(filterDuplicatesByKey(addIdToObjects(results.data, "no"),"y_no"));
+        console.log(
+          filterDuplicatesByKey(addIdToObjects(results.data, "no"), "y_no")
+        );
 
         // setHeaderZ([
         //   {
@@ -181,7 +198,15 @@ const MasterFilter = () => {
       </Grid>
       <Grid container justifyContent="center">
         <Grid item xs={8} md={10}>
-          <Button>Insert to Database</Button>
+          {/* <Button onClick={handleOpenModal}>Insert to Database</Button> */}
+          <ModalMaster
+            isOpen = {modalOpen}
+            onClose = {handleCloseModal}
+            btnText = "Test ModalZ"
+            modalHead = "Modal Header"
+            modalContent = "I love You, I go to School by bus"
+            btnTextNext = "Next"
+          />
         </Grid>
       </Grid>
     </MainContainer>
