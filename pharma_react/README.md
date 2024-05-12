@@ -12,5 +12,13 @@ npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
 
 # ThaiFont 
-# https://fonts.google.com/specimen/IBM+Plex+Sans+Thai+Looped/about?query=tha&subset=thai
+- (https://fonts.google.com/specimen/IBM+Plex+Sans+Thai+Looped/about?query=tha&subset=thai)
 npm install @fontsource/ibm-plex-sans-thai-looped
+
+# .eslintrc.cjs
+rules: {
+    'react/prop-types': 'off',
+    .
+    .
+    .
+}

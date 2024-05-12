@@ -104,48 +104,49 @@ const data = [
 
 const PrintTag = () => {
   return (
-    <PDFViewer style={{ width: "100%", height: "100vh" }}>
-      <Document title="Hello World">
-        {data.map((text, index) => (
-          <Page
-            size={{ width: 8 * 28.35, height: 5 * 28.35 }}
-            style={styles.page}
-            key={index}
-          >
-            <View style={styles.section}>
-              <Text
-                style={{
-                  fontSize: 8,
-                  fontFamily: "IBMPlexSansThaiLooped-Regular",
-                }}
-              >
-                {text.Name}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 6,
-                  fontFamily: "IBMPlexSansThaiLooped-Regular",
-                }}
-              >
-                {text.Address}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 6,
-                  fontFamily: "IBMPlexSansThaiLooped-Bold",
-                }}
-              >
-                ลูกค้า : {text.Customer}
-              </Text>
-              <View style={styles.hr} />
-              <Text
-                style={{
-                  fontSize: 6,
-                  fontFamily: "IBMPlexSansThaiLooped-Regular",
-                }}
-              >
-                ชื่อยา : {text.Medicine} &emsp;&emsp; จำนวน : {text.Qty}{" "}
-                {text.Unit}
+    <PDFViewer 
+        style={{ width: "100%", height: "100vh"}}
+    >
+        <Document title="Hello World">
+            {data.map((text, index) => (
+            <Page
+                size={{ width: 8 * 28.35, height: 5 * 28.35 }}
+                style={styles.page}
+                key={index}
+            >
+                <View style={styles.section}>
+                <Text
+                    style={{
+                        fontSize: 8,
+                    fontFamily: "IBMPlexSansThaiLooped-Regular",
+                    }}
+                >
+                    {text.Name}
+                </Text>
+                <Text
+                    style={{
+                        fontSize: 6,
+                        fontFamily: "IBMPlexSansThaiLooped-Regular",
+                    }}
+                >
+                    {text.Address}
+                </Text>
+                <Text
+                    style={{
+                        fontSize: 6,
+                        fontFamily: "IBMPlexSansThaiLooped-Bold",
+                    }}
+                >
+                    ลูกค้า : {text.Customer}
+                </Text>
+                <View style={styles.hr} />
+                <Text
+                    style={{
+                        fontSize: 6,
+                        fontFamily: "IBMPlexSansThaiLooped-Regular",
+                    }}
+                >
+                    ชื่อยา : {text.Medicine} {"       "} จำนวน : {text.Qty}{" "}{text.Unit}
               </Text>
               <Text
                 style={{
