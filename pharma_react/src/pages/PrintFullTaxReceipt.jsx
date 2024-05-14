@@ -63,6 +63,48 @@ const invoice_data = {
       qty: 50,
       price: 25,
     },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
+    {
+      id: 3,
+      productName: "ยานัดหมอมี",
+      qty: 50,
+      price: 25,
+    },
   ],
 };
 
@@ -135,8 +177,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 3,
+    marginBottom: 3,
   },
   no: {
     width: "5%",
@@ -171,6 +213,22 @@ const styles = StyleSheet.create({
     borderTop: 1,
     borderTopColor: "#000000",
     borderTopStyle: "solid",
+  },
+  footer: {
+    position: "absolute",
+    bottom: 5,
+    left: 0,
+    right: 0,
+    padding: 24,
+    textAlign: "center",
+    fontSize: 12,
+  },
+  footer_element: {
+    textAlign: "center",
+    fontSize: 10,
+    paddingX: 10,
+    fontFamily: "IBMPlexSansThaiLooped-Regular",
+    // backgroundColor: "red",
   },
 });
 
@@ -342,7 +400,7 @@ const TableBody = ({ cart }) => (
             fontFamily: "IBMPlexSansThaiLooped-Regular",
           }}
         >
-          {(1.000 * item.price.toFixed(2)).toLocaleString()}
+          {(1.0 * item.price.toFixed(2)).toLocaleString()}
         </Text>
         <Text
           style={{
@@ -350,7 +408,7 @@ const TableBody = ({ cart }) => (
             fontFamily: "IBMPlexSansThaiLooped-Regular",
           }}
         >
-          {(1.000 * (item.price * item.qty).toFixed(2)).toLocaleString()}
+          {(1.0 * (item.price * item.qty).toFixed(2)).toLocaleString()}
         </Text>
       </View>
     ))}
@@ -399,6 +457,31 @@ const ThaiWord = ({ getThaiWord }) => (
   </View>
 );
 
+const Footer = () => (
+  <View fixed style={styles.footer}>
+    <View style={styles.row}>
+      <View style={{ flexDirection: "column", width: "20%" }}>
+        <Text>{"_______________"}</Text>
+        <Text style={styles.footer_element}>{"ผู้รับสินค้า/บริการ"}</Text>
+      </View>
+      <View style={{ flexDirection: "column", width: "20%" }}>
+        <Text>{"_______________"}</Text>
+        <Text style={styles.footer_element}>{"วันที่"}</Text>
+      </View>
+      <View style={{ flexDirection: "column", width: "20%" }}>
+      </View>
+      <View style={{ flexDirection: "column", width: "20%" }}>
+        <Text>{"_______________"}</Text>
+        <Text style={styles.footer_element}>{"ผู้อนุมัติ"}</Text>
+      </View>
+      <View style={{ flexDirection: "column", width: "20%" }}>
+        <Text>{"_______________"}</Text>
+        <Text style={styles.footer_element}>{"วันที่"}</Text>
+      </View>
+    </View>
+  </View>
+);
+
 const calculateTotal = (cart) => {
   return cart.reduce((total, item) => total + item.qty * item.price, 0);
 };
@@ -418,36 +501,52 @@ const numberToThaiWords = (number) => {
   ];
   const tens = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"];
 
-  let words = "";
   if (number === 0) {
     return thaiNumbers[0];
   }
 
-  const digits = number.toString().split("").reverse();
-  digits.forEach((digit, index) => {
-    if (digit !== "0") {
-      if (index === 1 && digit === "1") {
-        words = tens[index] + words;
-      } else if (index === 1 && digit === "2") {
-        words = "ยี่" + tens[index] + words;
-      } else if (index === 0 && digit === "1" && digits.length > 1) {
+  const parts = number.toString().split(".");
+  let integerPart = parseInt(parts[0], 10);
+  const decimalPart = parts[1];
+
+  let words = "";
+  let position = 0;
+
+  while (integerPart > 0) {
+    const digit = integerPart % 10;
+    if (digit !== 0) {
+      if (position === 1 && digit === 1) {
+        words = tens[position] + words;
+      } else if (position === 1 && digit === 2) {
+        words = "ยี่" + tens[position] + words;
+      } else if (position === 0 && digit === 1 && integerPart > 1) {
         words = "เอ็ด" + words;
       } else {
-        words = thaiNumbers[parseInt(digit)] + tens[index] + words;
+        words = thaiNumbers[digit] + tens[position] + words;
       }
     }
-  });
+    integerPart = Math.floor(integerPart / 10);
+    position++;
+  }
+
+  if (decimalPart) {
+    words += " จุด ";
+    for (let i = 0; i < decimalPart.length; i++) {
+      const digit = parseInt(decimalPart[i], 10);
+      words += thaiNumbers[digit];
+    }
+  }
 
   return words;
 };
 
 const PrintFullTaxReceipt = () => {
-  console.log(numberToThaiWords(35719.5));
+  // console.log(numberToThaiWords(35719.5));
   // console.log((1234567.89).toLocaleString());
 
   return (
     <PDFViewer style={{ width: "100%", height: "100vh" }}>
-      <Document>
+      <Document title={invoice_data.id}>
         <Page size="A4" style={styles.page}>
           <LeftRightBox />
           <View style={styles.br} />
@@ -489,6 +588,7 @@ const PrintFullTaxReceipt = () => {
               Math.round(calculateTotal(invoice_data.cart))
             )}บาทถ้วน`}
           />
+          <Footer />
         </Page>
       </Document>
     </PDFViewer>
